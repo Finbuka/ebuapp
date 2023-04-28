@@ -1190,7 +1190,11 @@
                 <div class="d-flex flex-column justify-content-center text-center h-100 w-100">
                     <div class="container">
                         <div class="avatar avatar-lg mb-2">
+                            {% if c_user.image_path %}
+                            <img class="avatar-img" src="{{c_user.image_path}}" alt="">
+                            {% else %}
                             <img class="avatar-img" src="{{url_for('static', filename='media/avatar/4.png')}}" alt="">
+                            {% endif %}
                         </div>
     
                         <h5>Welcome, {{c_user.username}}</h5>
@@ -1297,7 +1301,11 @@
                                     <li class="list-group-item" who="other_users">
                                         <div class="media">
                                             <div class="avatar avatar-online mr-2">
+                                                {% if each_user.image_path %}
+                                                <img src="{{each_user.image_path}}" alt="">
+                                                {% else %}
                                                 <img src="{{url_for('static', filename='media/avatar/1.png')}}" alt="">
+                                                {% endif %}
                                             </div>
 
                                             <div class="media-body">
@@ -1491,7 +1499,11 @@
                                     <li class="list-group-item">
                                         <div class="media">
                                             <div class="avatar avatar-online mr-2">
+                                                {% if each_user.image_path %}
+                                                <img src="{{each_user.image_path}}" alt="">
+                                                {% else %}
                                                 <img src="{{url_for('static', filename='media/avatar/1.png')}}" alt="">
+                                                {% endif %}
                                             </div>
 
                                             <div class="media-body">
@@ -1504,7 +1516,7 @@
 
                                             <div class="media-options">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" type="checkbox" value="" id="chx-user-{{loop.index}}" checked="">
+                                                    <input class="custom-control-input" type="checkbox" value="" id="chx-user-{{loop.index}}">
                                                     <label class="custom-control-label" for="chx-user-{{loop.index}}"></label>
                                                 </div>
                                             </div>
@@ -1592,8 +1604,11 @@
     <script>
         c_username= "{{c_user.username}}";
         last_seen= "{{last_seen}}";
-        current_image_path= "{{c_user.image_path}}";
-        console.log(c_username,last_seen,current_image_path)
+        {% if c_user.image_path %}
+        current_image_path = "{{c_user.image_path}}";
+        {% else %}
+        var current_image_path
+        {% endif %}
 
     </script>
     <!-- Javascript Files -->

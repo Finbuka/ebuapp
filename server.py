@@ -125,8 +125,8 @@ def get_online_status(name):
     if user:
         three_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=3)
         if user.last_seen < three_minutes_ago:
-            return jsonify({"online":False})
-        return jsonify({"online":True})
+            return jsonify({"online":False,"last_seen":user.last_seen})
+        return jsonify({"online":True,"image":user.image_path})
     return jsonify({"online":None})
 
 
@@ -162,7 +162,6 @@ def get_group_chat(name):
                 "sender":mes.msg_sender.username,
                 "time":mes.created_at,
                 "text":mes.text})
-        details.append({"img_path":gp.image_path})
         return jsonify(details)
     return jsonify(None)
 

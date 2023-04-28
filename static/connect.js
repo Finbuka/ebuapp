@@ -51,7 +51,7 @@ document.querySelectorAll("li.contacts-item.groups").forEach(e=>{
 document.querySelector("#btn-create-group").addEventListener("click", function(e) {
   // Check if the event target matches the selector for the button you want to add the event listener to
   let groupname = document.querySelector("input#groupName").value.trim()
-  if (groupname.lenght!==0)
+  if (groupname.lenght > 2)
   if(document.querySelector("input[type=hidden]#actual-step").getAttribute("value")==="2"){
     e.preventDefault();
   
@@ -124,7 +124,7 @@ socket.on("message",(data)=>{
   }
 });
 
-//send message button 
+//send message button
 sendbtn = document.getElementById("sendbutton")
 sendbtn.addEventListener("click",sendbtnfun)
 function sendbtnfun() {
@@ -305,12 +305,15 @@ function svg_ico(pathd){
 
 function private_chat_click(element) {
   var username = element.textContent;
+  imagee = element.parentElement.parentElement.previousElementSibling.querySelector("img").src
+  imagee = imagee.slice(imagee.indexOf("static"),imagee.length)
+  console.log(imagee)
   let new_user = document.createElement("li")
   new_user.setAttribute("class","contacts-item friends active")
 
   new_user.innerHTML = `<a class="contacts-link" href="#">
   <div class="avatar avatar-online">
-  <img src="static/media/avatar/2.png" alt="">
+  <img src="${imagee}" alt="">
   </div>
   <div class="contacts-content">
   <div class="contacts-info">
@@ -349,10 +352,9 @@ function private_chat_click(element) {
   
   //change from group chat icon to user icon
   let rep = document.querySelector("div.chat-header .media.chat-name .avatar")
-  if (!rep.querySelector("img")){
-    rep.innerHTML = '<img src="static/media/avatar/2.png" alt="">';
-    rep.classList.add("avatar-online")
-  }
+  rep.innerHTML = `<img src="${imagee}" alt="">`;
+  rep.classList.add("avatar-online")
+  
 
   //setting the chat body to display
   if (document.querySelectorAll("main div.chats")[0].hasAttribute("style")){
@@ -502,7 +504,7 @@ function click_friend(element) {
       else{
         document.querySelector("div.chat-body div.avatar").classList.add("avatar-offline")
         document.querySelector("div.chat-body div.avatar").classList.remove("avatar-online")
-        document.querySelector("div.chat-header div.media-body small.text-muted").innerHTML = "Offline"
+        document.querySelector("div.chat-header div.media-body small.text-muted").innerHTML = "Offline.\n last seen: "+data.last_seen
       }
     });
 
